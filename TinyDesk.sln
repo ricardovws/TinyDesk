@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1145
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyDesk", "TinyDesk\TinyDesk.csproj", "{7FB6D951-42C5-4B3F-B539-357AF07F1D4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FB6D951-42C5-4B3F-B539-357AF07F1D4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB6D951-42C5-4B3F-B539-357AF07F1D4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB6D951-42C5-4B3F-B539-357AF07F1D4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB6D951-42C5-4B3F-B539-357AF07F1D4B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA589B5B-EB95-4824-9B0C-A0D90F911A7B}
+	EndGlobalSection
+EndGlobal
