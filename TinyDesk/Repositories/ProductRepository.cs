@@ -6,13 +6,10 @@ using TinyDesk.Models;
 
 namespace TinyDesk.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
-        private readonly ApplicationContext context;
-
-        public ProductRepository(ApplicationContext context)
+        public ProductRepository(ApplicationContext context) : base(context)
         {
-            this.context = context;
         }
 
         public IList<Product> GetProducts()

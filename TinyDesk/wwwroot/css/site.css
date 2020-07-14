@@ -69,7 +69,7 @@ textarea {
     filter: drop-shadow(2px 2px 2px #ccc);
 }
 
-.linha-produto {
+.line-product {
     margin: 20px;
 }
 
@@ -83,6 +83,3 @@ textarea {
     max-height: 140px;
 }
 
-.produto-nome {
-    color: black;
-}

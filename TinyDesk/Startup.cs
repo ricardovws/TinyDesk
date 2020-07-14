@@ -35,6 +35,8 @@ namespace TinyDesk
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddApplicationInsightsTelemetry();
 
             string connectionString = Configuration.GetConnectionString("Default");
@@ -44,6 +46,9 @@ namespace TinyDesk
 
             services.AddScoped<SeedingService>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IProductOrderRepository, ProductOrderRepository>();
+            services.AddTransient<IRegisterRepository, RegisterRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,13 +67,14 @@ namespace TinyDesk
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Order}/{action=Carousel}/{id?}");
+                    template: "{controller=Order}/{action=Carousel}/{code?}");
             });
         }
     }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TinyDesk.Models;
 using TinyDesk.Repositories;
 
 namespace TinyDesk.Controllers
@@ -10,10 +11,13 @@ namespace TinyDesk.Controllers
     public class OrderController : Controller
     {
         private readonly IProductRepository productRepository;
+        private readonly IOrderRepository orderRepository;
 
-        public OrderController(IProductRepository productRepository)
+        public OrderController(IProductRepository productRepository,
+            IOrderRepository orderRepository)
         {
             this.productRepository = productRepository;
+            this.orderRepository = orderRepository;
         }
 
         public IActionResult Carousel()
@@ -21,9 +25,16 @@ namespace TinyDesk.Controllers
             return View(productRepository.GetProducts());
         }
 
-        public IActionResult Cart()
+        public IActionResult Cart(string code)
         {
-            return View();
+            if (!string.IsNullOrEmpty(code))
+            {
+                orderRepository.AddItem(code);
+            }
+
+            Order order = orderRepository.GetOrder();
+            var productOrders = orderRepository.GetProductOrder(order.Id);
+            return View(productOrders);
         }
 
         public IActionResult Register()
@@ -33,7 +44,8 @@ namespace TinyDesk.Controllers
 
         public IActionResult Summary()
         {
-            return View();
+            Order order = orderRepository.GetOrder();
+            return View(orderRepository.GetProductOrder(order.Id));      
         }
     }
 }
