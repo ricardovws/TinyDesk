@@ -1,0 +1,42 @@
+[
+  {
+    "Code": "001",
+    "Name": "The Brothers Karamazov",
+    "Price": 14.99
+  },
+  {
+    "Code": "002",
+    "Name": "Twilight of the Idols",
+    "Price": 4.90
+  },
+  {
+    "Code": "003",
+    "Name": "Stoicism for Beginners",
+    "Price": 6.95
+  },
+  {
+    "Code": "004",
+    "Name": "Antifragile: Things That Gain from Disorder",
+    "Price": 15.82
+  },
+  {
+    "Code": "005",
+    "Name": "The Language Instinct: How The Mind Creates Language",
+    "Price": 11.49
+  },
+  {
+    "Code": "006",
+    "Name": "Fundamentals of Heat and Mass Transfer",
+    "Price": 87.65
+  },
+  {
+    "Code": "007",
+    "Name": "Lolita",
+    "Price": 8.89
+  },
+  {
+    "Code": "008",
+    "Name": "The Prince",
+    "Price": 20.49
+  }
+]

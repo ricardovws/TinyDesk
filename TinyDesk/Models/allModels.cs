@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TinyDesk.Models
 {
+
     [DataContract]
     public class BaseModel
     {
@@ -42,7 +43,7 @@ namespace TinyDesk.Models
         {
         }
 
-        public virtual Order Order { get; set; }
+        public virtual int OrderId { get; set; }
         [Required]
         public string Name { get; set; } = "";
         [Required]
@@ -66,9 +67,9 @@ namespace TinyDesk.Models
     public class ProductOrder : BaseModel
     {
         [Required]
-        public Order Order { get; private set; }
+        public int OrderId { get; private set; }
         [Required]
-        public Product Product { get; private set; }
+        public int ProductId { get; private set; }
         [Required]
         public int Quantity { get; private set; }
         [Required]
@@ -78,10 +79,10 @@ namespace TinyDesk.Models
         {
         }
 
-        public ProductOrder(Order order, Product product, int quantity, decimal unitPrice)
+        public ProductOrder(int orderId, int productId, int quantity, decimal unitPrice)
         {
-            Order = order;
-            Product = product;
+            OrderId = orderId;
+            ProductId = productId;
             Quantity = quantity;
             UnitPrice = unitPrice;
         }
@@ -89,18 +90,19 @@ namespace TinyDesk.Models
 
     public class Order : BaseModel
     {
-        public Order()
-        {
-            Register = new Register();
-        }
+        //public Order()
+        //{
+        //    Register = new Register();
+        //}
 
-        public Order(Register register)
-        {
-            Register = register;
-        }
+        //public Order(Register register)
+        //{
+        //    Register = register;
+        //}
 
-        public List<ProductOrder> Itens { get; private set; } = new List<ProductOrder>();
-        [Required]
-        public virtual Register Register { get; private set; }
+        //public List<ProductOrder> Itens { get; private set; } = new List<ProductOrder>();
+        //[Required]
+        public virtual int RegisterId{ get; private set; }
     }
+
 }
