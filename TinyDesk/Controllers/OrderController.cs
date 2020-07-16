@@ -12,12 +12,15 @@ namespace TinyDesk.Controllers
     {
         private readonly IProductRepository productRepository;
         private readonly IOrderRepository orderRepository;
+        private readonly IProductOrderRepository productOrderRepository;
 
-        public OrderController(IProductRepository productRepository,
-            IOrderRepository orderRepository)
+        public OrderController(IProductRepository productRepository, 
+            IOrderRepository orderRepository, 
+            IProductOrderRepository productOrderRepository)
         {
             this.productRepository = productRepository;
             this.orderRepository = orderRepository;
+            this.productOrderRepository = productOrderRepository;
         }
 
         public IActionResult Carousel()
@@ -46,6 +49,12 @@ namespace TinyDesk.Controllers
         {
             Order order = orderRepository.GetOrder();
             return View(orderRepository.GetProductOrder(order.Id));      
+        }
+
+        [HttpPost]
+        public void UpdateQuantity([FromBody]ItemOrderViewModel item)
+        {
+            productOrderRepository.UpdateQuantity(item);
         }
     }
 }

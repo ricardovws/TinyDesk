@@ -26,25 +26,29 @@
     <div class="panel-body">
 
         @foreach (var item in Model)
-            {
+        {
+            <p id="orderId" hidden>@item.OrderId</p>
 
-            <div class="row row-center line-product">
+            <div class="row row-center line-product" item-id="@item.ProductId">
                 <div class="col-md-3">
-                    <img class="img-product-cart" src="~/images/products/large_@(item.Code).jpg" />
+                    <img class="img-product-cart" src="~/images/products/large_@(item.ProductCode).jpg" />
                 </div>
-                <div class="col-md-3">@(item.Name)</div>
+                <div class="col-md-3">@(item.ProductName)</div>
                 <div class="col-md-2 text-center">@item.UnitPrice</div>
                 <div class="col-md-2 text-center">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button class="btn btn-default">
+                            <button class="btn btn-default"
+                                    onclick="cart.clickDecrement(this)">
                                 <span class="glyphicon-minus"></span>
                             </button>
                         </span>
                         <input type="text" value="@(item.Quantity)"
-                               class="form-control text-center" />
+                               class="form-control text-center" 
+                               onblur="cart.updateQuantity(this)"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-default">
+                            <button class="btn btn-default"
+                                    onclick="cart.clickIncrement(this)">
                                 <span class="glyphicon-plus"></span>
                             </button>
                         </span>
@@ -90,3 +94,7 @@
         </div>
     </div>
 </div>
+@section Scripts{
+    <script src="~/js/cart.js">
+    </script>
+}

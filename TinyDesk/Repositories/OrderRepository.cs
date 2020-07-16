@@ -70,7 +70,7 @@ namespace TinyDesk.Repositories
                 var productItemId = item.ProductId;
                 var productInfos = context.Product.Where(x => x.Id == productItemId).FirstOrDefault();
                 var itemOrderViewModel = new ItemOrderViewModel
-                    (id, productInfos.Name, productInfos.Code, 
+                    (id, item.OrderId, productInfos.Id, productInfos.Name, productInfos.Code, 
                     item.Quantity, item.UnitPrice);
                 listResult.Add(itemOrderViewModel);
             }

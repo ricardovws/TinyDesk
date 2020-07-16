@@ -9,19 +9,25 @@ namespace TinyDesk.Models
     {
         public int Id { get; set; }
 
-        public string Name { get; private set; }
+        public int OrderId { get; set; }
 
-        public string Code { get; set; }
+        public int ProductId { get; set; }
+
+        public string ProductName { get; private set; }
+
+        public string ProductCode { get; set; }
 
         public int Quantity { get; private set; }
         
         public decimal UnitPrice { get; private set; }
 
-        public ItemOrderViewModel(int id, string name, string code, int quantity, decimal unitPrice)
+        public ItemOrderViewModel(int id, int orderId, int productId, string productName, string productCode, int quantity, decimal unitPrice)
         {
             Id = id;
-            Name = name;
-            Code = code;
+            OrderId = orderId;
+            ProductId = productId;
+            ProductName = productName;
+            ProductCode = productCode;
             Quantity = quantity;
             UnitPrice = unitPrice;
         }

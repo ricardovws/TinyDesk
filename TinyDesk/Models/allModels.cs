@@ -86,6 +86,11 @@ namespace TinyDesk.Models
             Quantity = quantity;
             UnitPrice = unitPrice;
         }
+
+        internal void RefreshQuantity(int quantity)
+        {
+            Quantity = quantity;
+        }
     }
 
     public class Order : BaseModel
