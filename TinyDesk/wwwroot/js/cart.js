@@ -16,20 +16,29 @@
         var itemLine2nd = $('#orderId').html();
         var itemId = $(itemLine).attr('item-id');
         var newQnty = $(itemLine).find('input').val();
-
+   
         return {
             ProductId: itemId,
             OrderId: itemLine2nd,
-            Quantity: newQnty
+            Quantity: newQnty,
         };
     }
 
     postQuantity(data) {
         $.ajax({
-            url: '/Order/UpdateQuantity',
+            url: '/Order/RefreshSomeValues',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(data)
+        }).done(function (response) {
+
+            let itemLine = $('[item-id=' + response.updatedOne.productId + ']');
+            itemLine.find('input').val(response.updatedOne.quantity);
+            itemLine.find('[subtotal]').html((response.updatedOne.subTotal).fixNumber());
+            let cart = response.cart;
+            $('[numero-itens]').html(cart.totalItens + ' itens');
+            $('[total]').html((cart.total).fixNumber());
+            debugger;
         });
     }
 
@@ -40,4 +49,8 @@
 }
 
 var cart = new Cart();
+
+Number.prototype.fixNumber = function () {
+    return this.toFixed(2).replace('.', ',');
+}
 

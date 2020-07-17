@@ -7,8 +7,6 @@ namespace TinyDesk.Models
 {
     public class ItemOrderViewModel
     {
-        public int Id { get; set; }
-
         public int OrderId { get; set; }
 
         public int ProductId { get; set; }
@@ -19,11 +17,10 @@ namespace TinyDesk.Models
 
         public int Quantity { get; private set; }
         
-        public decimal UnitPrice { get; private set; }
+        public decimal UnitPrice { get; set; }
 
-        public ItemOrderViewModel(int id, int orderId, int productId, string productName, string productCode, int quantity, decimal unitPrice)
+        public ItemOrderViewModel(int orderId, int productId, string productName, string productCode, int quantity, decimal unitPrice)
         {
-            Id = id;
             OrderId = orderId;
             ProductId = productId;
             ProductName = productName;
@@ -31,5 +28,9 @@ namespace TinyDesk.Models
             Quantity = quantity;
             UnitPrice = unitPrice;
         }
+
+        public decimal SubTotal => Quantity * UnitPrice;
+
     }
 }
+

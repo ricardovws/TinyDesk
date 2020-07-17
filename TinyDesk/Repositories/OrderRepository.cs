@@ -36,10 +36,17 @@ namespace TinyDesk.Repositories
 
             var order = GetOrder();
 
-            var productOrder = new ProductOrder(order.Id, product.Id, 1, product.Price);
+            var productOrders = context.ProductOrder.Where(p => p.OrderId == order.Id
+            && p.ProductId == product.Id).SingleOrDefault();
 
-            context.ProductOrder.Add(productOrder);
-            context.SaveChanges();
+            if (productOrders == null)
+            {
+                var productOrder = new ProductOrder(order.Id, product.Id, 1, product.Price);
+
+                context.ProductOrder.Add(productOrder);
+                context.SaveChanges();
+            }
+   
         }
 
         
@@ -70,11 +77,12 @@ namespace TinyDesk.Repositories
                 var productItemId = item.ProductId;
                 var productInfos = context.Product.Where(x => x.Id == productItemId).FirstOrDefault();
                 var itemOrderViewModel = new ItemOrderViewModel
-                    (id, item.OrderId, productInfos.Id, productInfos.Name, productInfos.Code, 
+                    (item.OrderId, productInfos.Id, productInfos.Name, productInfos.Code, 
                     item.Quantity, item.UnitPrice);
                 listResult.Add(itemOrderViewModel);
             }
-            return listResult;
+            var cart = new CartViewModel(listResult);
+            return cart;
         }
 
         private int? GetOrderId()
@@ -86,5 +94,7 @@ namespace TinyDesk.Repositories
         {
             contextAccessor.HttpContext.Session.SetInt32("orderId", orderId);
         }
+
+       
     }
 }

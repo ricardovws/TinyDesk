@@ -36,8 +36,8 @@ namespace TinyDesk.Controllers
             }
 
             Order order = orderRepository.GetOrder();
-            var productOrders = orderRepository.GetProductOrder(order.Id);
-            return View(productOrders);
+            var cart = orderRepository.GetProductOrder(order.Id);
+            return View(cart);
         }
 
         public IActionResult Register()
@@ -56,5 +56,19 @@ namespace TinyDesk.Controllers
         {
             productOrderRepository.UpdateQuantity(item);
         }
+
+        [HttpPost]
+        public UpdateResponse RefreshSomeValues([FromBody]ItemOrderViewModel item)
+        {
+            UpdateQuantity(item);
+            var cart = orderRepository.GetProductOrder(item.OrderId);
+            item.UnitPrice = productOrderRepository.GetPrice(item);
+            var toUpdate = new UpdateResponse(item, cart);
+
+            return toUpdate;
+        }
+
+
+
     }
 }
