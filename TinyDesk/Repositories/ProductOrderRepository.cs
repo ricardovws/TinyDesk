@@ -9,7 +9,7 @@ namespace TinyDesk.Repositories
     public interface IProductOrderRepository
     {
         void UpdateQuantity(ItemOrderViewModel item);
-        decimal GetPrice(ItemOrderViewModel item);
+        
     }
 
     public class ProductOrderRepository : BaseRepository<ProductOrder>, IProductOrderRepository
@@ -29,17 +29,18 @@ namespace TinyDesk.Repositories
                 if (productOrder.ProductId == item.ProductId)
                 {
                     productOrder.RefreshQuantity(item.Quantity);
-                    context.ProductOrder.Update(productOrder);
+                    if (productOrder.Quantity <= 0)
+                    {
+                        context.ProductOrder.Remove(productOrder);
+                    }
+                    else
+                    {
+                        context.ProductOrder.Update(productOrder);
+                    }
                     context.SaveChanges();
                 }
             }
         }
 
-        public decimal GetPrice(ItemOrderViewModel item)
-        {
-            var price = context.Product.Where(x => x.Id == item.ProductId)
-                .FirstOrDefault().Price;
-            return price;
-        }
     }
 }

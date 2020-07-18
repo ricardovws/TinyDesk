@@ -62,7 +62,17 @@ namespace TinyDesk.Controllers
         {
             UpdateQuantity(item);
             var cart = orderRepository.GetProductOrder(item.OrderId);
-            item.UnitPrice = productOrderRepository.GetPrice(item);
+            try
+            {
+                var price = cart.CartList.Where(x => x.ProductId == item.ProductId)
+                .FirstOrDefault().UnitPrice;
+                item.UnitPrice = price;
+            }
+            catch(Exception)
+            {
+                ;
+            }
+            
             var toUpdate = new UpdateResponse(item, cart);
 
             return toUpdate;

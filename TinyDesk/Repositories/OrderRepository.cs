@@ -12,7 +12,7 @@ namespace TinyDesk.Repositories
     {
         Order GetOrder();
         void AddItem(string code);
-        object GetProductOrder(int id);
+        CartViewModel GetProductOrder(int id);
     }
 
     public class OrderRepository : BaseRepository<Order>, IOrderRepository
@@ -68,7 +68,7 @@ namespace TinyDesk.Repositories
             return order;
         }
 
-        public object GetProductOrder(int id)
+        public CartViewModel GetProductOrder(int id)
         {
             var list = context.ProductOrder.Where(p => p.OrderId == id);
             List<ItemOrderViewModel> listResult = new List<ItemOrderViewModel>();

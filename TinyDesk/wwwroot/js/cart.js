@@ -36,8 +36,13 @@
             itemLine.find('input').val(response.updatedOne.quantity);
             itemLine.find('[subtotal]').html((response.updatedOne.subTotal).fixNumber());
             let cart = response.cart;
-            $('[numero-itens]').html(cart.totalItens + ' itens');
+            $('[numero-itens]').html('Total: ' + cart.totalItens + ' itens');
             $('[total]').html((cart.total).fixNumber());
+
+            if (response.updatedOne.quantity == 0) {
+                itemLine.remove();
+            }
+
             debugger;
         });
     }
