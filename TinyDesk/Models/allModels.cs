@@ -44,6 +44,8 @@ namespace TinyDesk.Models
         }
 
         public virtual int OrderId { get; set; }
+        [MinLength(5, ErrorMessage = "The name must be at least two characters long.")]
+        [MaxLength(50, ErrorMessage = "The name cannot contain more than 50 characters.")]
         [Required]
         public string Name { get; set; } = "";
         [Required]
@@ -95,19 +97,12 @@ namespace TinyDesk.Models
 
     public class Order : BaseModel
     {
-        //public Order()
-        //{
-        //    Register = new Register();
-        //}
-
-        //public Order(Register register)
-        //{
-        //    Register = register;
-        //}
-
-        //public List<ProductOrder> Itens { get; private set; } = new List<ProductOrder>();
-        //[Required]
         public virtual int RegisterId{ get; private set; }
+
+        internal void InsertRegisterId(int Id)
+        {
+            RegisterId = Id;
+        }
     }
 
 }

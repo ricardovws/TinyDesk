@@ -8,7 +8,7 @@ namespace TinyDesk.Repositories
 {
     public interface IRegisterRepository
     {
-
+        void Update(Order order, Register register);
     }
 
     public class RegisterRepository : BaseRepository<Register>, IRegisterRepository
@@ -17,5 +17,16 @@ namespace TinyDesk.Repositories
         {
 
         }
+
+        public void Update(Order order, Register register)
+        {
+            context.Register.Update(register);
+            context.SaveChanges();
+
+            order.InsertRegisterId(register.Id);
+            context.Order.Update(order);
+            context.SaveChanges();
+        }
+
     }
 }

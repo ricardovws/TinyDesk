@@ -13,14 +13,17 @@ namespace TinyDesk.Controllers
         private readonly IProductRepository productRepository;
         private readonly IOrderRepository orderRepository;
         private readonly IProductOrderRepository productOrderRepository;
+        private readonly IRegisterRepository registerRepository;
 
         public OrderController(IProductRepository productRepository, 
             IOrderRepository orderRepository, 
-            IProductOrderRepository productOrderRepository)
+            IProductOrderRepository productOrderRepository,
+            IRegisterRepository registerRepository)
         {
             this.productRepository = productRepository;
             this.orderRepository = orderRepository;
             this.productOrderRepository = productOrderRepository;
+            this.registerRepository = registerRepository;
         }
 
         public IActionResult Carousel()
@@ -42,22 +45,36 @@ namespace TinyDesk.Controllers
 
         public IActionResult Register()
         {
+            var order = orderRepository.GetOrder();
+
+            if (order == null)
+            {
+                return RedirectToAction("Carousel");
+            }
+
             return View();
         }
 
-        public IActionResult Summary()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Summary(Register register)
         {
             Order order = orderRepository.GetOrder();
-            return View(orderRepository.GetProductOrder(order.Id));      
+            register.OrderId = order.Id;
+            registerRepository.Update(order, register);
+            var cart = orderRepository.GetProductOrder(order.Id);
+            var summary = new SummaryViewModel(register, cart);
+            return View(summary);      
         }
 
-        [HttpPost]
-        public void UpdateQuantity([FromBody]ItemOrderViewModel item)
+      
+        private void UpdateQuantity(ItemOrderViewModel item)
         {
             productOrderRepository.UpdateQuantity(item);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public UpdateResponse RefreshSomeValues([FromBody]ItemOrderViewModel item)
         {
             UpdateQuantity(item);
