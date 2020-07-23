@@ -49,6 +49,11 @@ namespace TinyDesk
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IProductOrderRepository, ProductOrderRepository>();
             services.AddTransient<IRegisterRepository, RegisterRepository>();
+            services.AddAuthentication().AddMicrosoftAccount(options =>
+            {
+                options.ClientId = Configuration["ExternalLogin:Microsoft:ClientId"];
+                options.ClientSecret = Configuration["ExternalLogin:Microsoft:ClientSecret"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
