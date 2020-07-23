@@ -83,3 +83,7 @@ textarea {
     max-height: 140px;
 }
 
+.navbar-right {
+    margin-top: 0.5em;
+}
+

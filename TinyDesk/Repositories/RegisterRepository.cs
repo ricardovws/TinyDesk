@@ -9,6 +9,7 @@ namespace TinyDesk.Repositories
     public interface IRegisterRepository
     {
         void Update(Order order, Register register);
+        Register CatchRegister(string email);
     }
 
     public class RegisterRepository : BaseRepository<Register>, IRegisterRepository
@@ -18,9 +19,29 @@ namespace TinyDesk.Repositories
 
         }
 
+
+        public Register CatchRegister(string email)
+        {
+            var register = context.Register.Where(r => r.Email == email).LastOrDefault();
+            if(register == null)
+            {
+                return register = new Register { Email = email };
+            }
+            else
+            {
+                return register;
+            }
+        }
+
+
         public void Update(Order order, Register register)
         {
-            context.Register.Update(register);
+            var oldRegister = context.Register.Where(r => r.Email == register.Email).LastOrDefault();
+            if(oldRegister != null)
+            {
+                context.Register.Remove(oldRegister);
+            }
+            context.Register.Add(register);
             context.SaveChanges();
 
             order.InsertRegisterId(register.Id);

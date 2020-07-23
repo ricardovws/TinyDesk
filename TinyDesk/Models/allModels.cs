@@ -99,9 +99,17 @@ namespace TinyDesk.Models
     {
         public virtual int RegisterId{ get; private set; }
 
+        [Required]
+        public string ClientId { get; set; }
+
         internal void InsertRegisterId(int Id)
         {
             RegisterId = Id;
+        }
+
+        public Order(string clientId)
+        {
+            ClientId = clientId;
         }
     }
 

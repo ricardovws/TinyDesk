@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TinyDesk.Areas.Identity.Data;
 using TinyDesk.Models;
 using TinyDesk.Repositories;
 
@@ -14,16 +17,19 @@ namespace TinyDesk.Controllers
         private readonly IOrderRepository orderRepository;
         private readonly IProductOrderRepository productOrderRepository;
         private readonly IRegisterRepository registerRepository;
+        private readonly UserManager<AppIdentityUser> userManager;
 
         public OrderController(IProductRepository productRepository, 
             IOrderRepository orderRepository, 
             IProductOrderRepository productOrderRepository,
-            IRegisterRepository registerRepository)
+            IRegisterRepository registerRepository,
+            UserManager<AppIdentityUser> userManager)
         {
             this.productRepository = productRepository;
             this.orderRepository = orderRepository;
             this.productOrderRepository = productOrderRepository;
             this.registerRepository = registerRepository;
+            this.userManager = userManager;
         }
 
         public IActionResult Carousel()
@@ -31,6 +37,7 @@ namespace TinyDesk.Controllers
             return View(productRepository.GetProducts());
         }
 
+        [Authorize]
         public IActionResult Cart(string code)
         {
             if (!string.IsNullOrEmpty(code))
@@ -43,7 +50,8 @@ namespace TinyDesk.Controllers
             return View(cart);
         }
 
-        public IActionResult Register()
+        [Authorize]
+        public async Task<IActionResult> Register()
         {
             var order = orderRepository.GetOrder();
 
@@ -52,13 +60,23 @@ namespace TinyDesk.Controllers
                 return RedirectToAction("Carousel");
             }
 
-            return View();
+            var user = await userManager.GetUserAsync(this.User);
+
+            //Catch the last register with the same email user
+
+            var register = registerRepository.CatchRegister(user.Email);
+
+            return View(register);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Summary(Register register)
+        [Authorize]
+        public async Task<IActionResult> Summary(Register register)
         {
+            var user = await userManager.GetUserAsync(this.User);
+            var registerDB = registerRepository.CatchRegister(user.Email);
+
             Order order = orderRepository.GetOrder();
             register.OrderId = order.Id;
             registerRepository.Update(order, register);
@@ -75,6 +93,7 @@ namespace TinyDesk.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public UpdateResponse RefreshSomeValues([FromBody]ItemOrderViewModel item)
         {
             UpdateQuantity(item);

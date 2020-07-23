@@ -67,6 +67,7 @@ namespace TinyDesk
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseSession();
             app.UseCookiePolicy();
 
